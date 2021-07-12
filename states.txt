@@ -1,0 +1,56 @@
+UI
+
+-2: exit
+-1: main menu
+0: join screen
+1: host screen
+
+menu 
+    self.hostMenu = [
+      {'Label': 'Host a game', 'skip': True},
+      {'Label': '', 'skip': True},
+      {'Label': 'Gamemode:'},
+      {'Label': '  FFA:',              'boolean': True},
+      {'Label': '  Battle Royale:',    'boolean': False},
+      {'Label': '', 'skip': True},
+      {'Label': 'Max players:',        'value': 4},
+      {'Label': 'Max bullets in air:', 'value': 15},
+      {'Label': 'Max rockets in air:', 'value': 1},
+      {'Label': '', 'skip': True},
+      {'Label': 'Tickrate:',           'value': 20},
+      {'Label': '', 'skip': True},
+      {'Label': 'Continue', 'selectable': 1}
+    ]
+
+
+
+import os
+
+x = os.get_terminal_size().lines
+y = os.get_terminal_size().columns
+
+print(x)
+print(y)
+
+import os
+
+cmd = 'mode 50,20'
+os.system(cmd)
+
+You can however use a simple wrapper for getch that 
+checks when it returns 3 and raises an error accordingly.
+
+
+    curses.cbreak()
+does not work
+
+def UGETCHAR_(scr):
+    import curses
+    h = scr.getch()
+    if h == 3:
+        raise KeyboardInterrupt
+    if h == 26:
+        raise EOFError
+    return h
+
+-1 is the keycode for no input

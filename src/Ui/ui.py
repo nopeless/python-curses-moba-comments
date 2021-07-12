@@ -12,11 +12,28 @@ class Ui:
     self.ip = None
     self.bind = None
 
+    # self.s is an initialized curses screen
     self.s = curses.initscr()
+    # Set the cursor state. visibility can be set to 
+    # 0, 1, or 2, for invisible, normal, or very visible.
     curses.curs_set(0)
+    # disables input characters
     curses.noecho()
 
-    self.w = curses.newwin(24, 80, 0, 0)
+    # initialize a new window
+    # returns window
+    try:
+      self.w = curses.newwin(24, 80, 0, 0)
+    except:
+      print('fail')
+      exit()
+    """
+    Set blocking or non-blocking read behavior for the window. 
+    
+    If delay is negative, blocking read is used (which will wait indefinitely for input).
+    If delay is zero, then non-blocking read is used, and getch() will return -1 if no input is waiting. 
+    If delay is positive, then getch() will block for delay milliseconds
+    , and return -1 if there is still no input at the end of that time."""
     self.w.timeout(0)
 
     self.mainMenu = [
@@ -40,11 +57,17 @@ class Ui:
       {'Label': 'Continue', 'selectable': 1}
     ]
 
+    # if the screen is the main menu
     if self.state == -1:
       try:
         self.drawBackground()
+        # This actually renders the self.w window object
         self.w.getch()
-        m = Menu(self.mainMenu, 4, 19, 15, (80 - 19)//2)
+
+        # Initializes the menu object
+        m = Menu(self.mainMenu, 4, 19, 15, (80 - 19)//2, "test")
+
+        # Renders the menu
         m.createMenu()
         self.state = m.selection
       except KeyboardInterrupt:

@@ -11,6 +11,7 @@ uiError = ''
 
 
 while True:
+  # Open main menu screen with no error
   ui = Ui(uiState, uiError)
   uiState = ui.state
   uiError = ''

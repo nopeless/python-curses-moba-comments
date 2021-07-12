@@ -10,9 +10,18 @@ class Menu:
     self.height = height
     self.width = width
 
+    # Creates a window object
     self.w = curses.newwin(height, width, y, x)
-    self.w.timeout(100)
+    # I have no idea why this was set to 100
+    self.w.timeout(-1)
+
+    # 1- True -> Allow keypads to be handled by curses
     self.w.keypad(1)
+
+    # Draw a border around the edges of the window. 
+    # Each parameter specifies the character to use for a specific part of the border; 
+    # see the table below for more details.
+    # 0 uses a default table
     self.w.border(0)
 
     self.selection = 0
@@ -24,6 +33,7 @@ class Menu:
     self.w.timeout(-1)
     curses.echo()
     
+    # Get user input at y 1, x 2, 22 characters
     prompt = self.w.getstr(1, 2, 22)
 
     self.w.timeout(100)
@@ -35,6 +45,13 @@ class Menu:
     # try:
     while True:
       key = self.w.getch()
+
+      # showing that getch() will return multiple keys
+      keys = [key]
+      # if key != -1:
+      #   while (key := self.w.getch()) != -1:
+      #     keys.append(key)
+      
 
       if key == curses.KEY_UP:
         index = self.selection
@@ -78,11 +95,17 @@ class Menu:
         elif 'boolean' in self.menu[self.selection]:
           self.menu[self.selection]['boolean'] = not self.menu[self.selection]['boolean']
 
+      # Enter
       elif key == 10:
+        # break after select
         if 'selectable' in self.menu[self.selection]:
           self.select()
           break
+      elif key == 3:
+        raise KeyboardInterrupt
 
+      # curses.flushinp()
+      # This constantly draws
       self.draw()
     # except KeyboardInterrupt:
     #   self.selection = -1
