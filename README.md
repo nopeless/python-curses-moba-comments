@@ -4,7 +4,7 @@ A text-based game created with python curses library. Supports multiplayer and c
 
 ## To get started:
 
-Start the server: `python3.7 server/src/server.py [your ip]:[port]`
+Start the server: `cd server/src && python3.7 server.py [your ip]:[port]`
 
 Connect a client: `python3.7 game/src/main.py [server ip]:[port]`
 
